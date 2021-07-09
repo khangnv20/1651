@@ -17,9 +17,7 @@ namespace MyAssignment
         {
             firstSubject = null;
             lastSubject = null;
-            if (Read("public/SubjectData.txt"))
-                Console.WriteLine("Import Subject data successfully!");
-            else
+            if (!Read("public/SubjectData.txt"))
                 Console.WriteLine("An occured when importing Subject data!");
         }
         public bool Save(string path)
@@ -104,13 +102,19 @@ namespace MyAssignment
                 case 1:
                     {
                         Subject subject;
-                        Console.WriteLine("Insert Subject ID: ");
-                        string id = Console.ReadLine();
+                         Console.WriteLine("Insert Subject ID: \nId must be SJC+number or you can enter nunber after SJC");
+                    insertID: string id = Console.ReadLine();
+                        if (int.TryParse(id, out int temp)) id = "SJC" + id;
+                        if (!int.TryParse(id, out temp) && !id.Contains("SJC"))
+                        {
+                            Console.WriteLine("Id must be SJC+number or you can enter nunber after SJC");
+                            goto insertID;
+                        }
                         if (DuplicateID(id))
                         {
                             Console.WriteLine("Duplicate ID!");
-                            Console.ReadKey();
-                            break;
+                            Console.WriteLine("Insert ID again!");
+                            goto insertID;
                         }
                         Console.WriteLine("Insert Subject Title: ");
                         string title = Console.ReadLine();

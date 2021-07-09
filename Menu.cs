@@ -34,7 +34,7 @@ namespace MyAssignment
                 }
                 if (option == 5)
                 {
-                    Console.WriteLine("Are you sure to exit?\nAll data will be deleted [y/n]");
+                    Console.WriteLine("Are you sure to exit? [y/n]\n(All data in memory will be deleted, however, in the next open it will be imported.)");
                     string confirm = Console.ReadLine();
                     if (confirm.ToLower() == "yes" || confirm.ToLower() == "y") break;
                     else

@@ -54,17 +54,19 @@ namespace MyAssignment
                 size--;
                 return;
             }
+
             while (newi.Next != null)
             {
                 if (newi.Next.StudentId == id)
                 {
                     newi.Next = newi.Next.Next;
                     size--;
+                    updateLastStudent();
                     return;
                 }
                 newi = newi.Next;
             }
-            updateLastStudent();
+            
         }
         private void updateLastStudent()
         {
@@ -213,20 +215,19 @@ namespace MyAssignment
                 case 1:
                     {
                         Student newj = new Student("","","","","","","","","");
-                        insertStudentID: Console.WriteLine("Insert Student ID: ");
-                        string id = Console.ReadLine();
+                        Console.WriteLine("Insert Student ID: \nId must be GCC+number or you can enter nunber after GCC");
+                    insertStudentID: string id = Console.ReadLine();
+                        if (int.TryParse(id, out int temp)) id = "GCC" + id;
+                        if (!int.TryParse(id, out temp) && !id.Contains("GCC"))
+                        {
+                            Console.WriteLine("Id must be GCC+number or you can enter nunber after GCC");
+                            goto insertStudentID;
+                        }
                         if (DuplicateID(id)||id=="")
                         {
                             Console.WriteLine("Duplicate ID!");
-                            Console.ReadKey();
+                            Console.WriteLine("Insert ID again!");
                             goto insertStudentID;
-                        }
-                        if (int.TryParse(id, out int temp)) id = "GCC" + id;
-                        if (!int.TryParse(id, out temp) && !id.Contains("GCC")) 
-                        {
-                            Console.WriteLine("Id must be GCC+number or you can enter nunber after GCC");
-                            Console.ReadKey();
-                            goto insertStudentID; 
                         }
                         newj.StudentId = id;
                         Console.WriteLine("Enter name:");
@@ -298,7 +299,7 @@ namespace MyAssignment
 
         public void Update()
         {
-            Console.WriteLine("Enter student ID (id / passportid / id card) to update: ");
+            Console.WriteLine("Enter student ID to update: ");
             string id = Console.ReadLine();
             if (!DuplicateID(id))
             {
@@ -320,6 +321,7 @@ namespace MyAssignment
                 }
                 newi = newi.Next;
             }
+            newj.Next = null;
             Console.WriteLine("All field will not be updated if it's blank! " +
                 "\nso, press enter if you don't want to update any field");
             Console.WriteLine("Enter name:");

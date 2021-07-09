@@ -56,21 +56,22 @@ namespace MyAssignment
                 case 1:
                     {
                         Assignment newj = new Assignment("","","","","","");
-                    insertID: Console.WriteLine("Insert assignment ID: ");
-                        string id = Console.ReadLine();
-                        if (DuplicateID(id) || id == "")
-                        {
-                            Console.WriteLine("Duplicate ID!");
-                            Console.ReadKey();
-                            goto insertID;
-                        }
+                     Console.WriteLine("Insert assignment ID: \nId must be ASM+number or you can enter nunber after ASM");
+
+                    insertID: string id = Console.ReadLine();
                         if (int.TryParse(id, out int temp)) id = "ASM" + id;
                         if (!int.TryParse(id, out temp) && !id.Contains("ASM"))
                         {
                             Console.WriteLine("Id must be ASM+number or you can enter nunber after ASM");
-                            Console.ReadKey();
                             goto insertID;
                         }
+                        if (DuplicateID(id) || id == "")
+                        {
+                            Console.WriteLine("Duplicate ID!");
+                            Console.WriteLine("Insert ID again!");
+                            goto insertID;
+                        }
+                        
                         newj.AssignmentID = id;
                         Console.WriteLine("Enter title:");
                         string title = Console.ReadLine();
@@ -172,11 +173,12 @@ namespace MyAssignment
                 {
                     newi.Next = newi.Next.Next;
                     size--;
+                    updateLastAssinment();
                     return;
                 }
                 newi = newi.Next;
             }
-            updateLastAssinment();
+            
         }
         private void updateLastAssinment()
         {
@@ -314,6 +316,7 @@ namespace MyAssignment
                 }
                 newi = newi.Next;
             }
+            newj.Next = null;
             Console.WriteLine("All field will not be updated if it's blank! " +
                 "\nso, press enter if you don't want to update any field");
             Console.WriteLine("Enter assignment title:");
